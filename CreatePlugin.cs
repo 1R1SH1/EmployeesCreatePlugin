@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PhoneApp.Domain.Attributes;
 using PhoneApp.Domain.DTO;
 using PhoneApp.Domain.Interfaces;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace EmployeesCreatePlugin
 {
+    [Author(Name = "Ivan Petrov")]
     public class Plugin : IPluggable
     {
         private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
