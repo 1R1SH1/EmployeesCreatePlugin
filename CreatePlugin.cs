@@ -12,22 +12,24 @@ namespace EmployeesCreatePlugin
     public class Plugin : IPluggable
     {
         private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private const string jsonFilePath = "Resources.resx";
-        public List<EmployeesDTO> _employees { get; set; }
+        private const string jsonFilePath = "C:\\Users\\Rishat\\Downloads\\PhonePluginsApplication-master\\EmployeesLoaderPlugin\\Properties\\Resources.resx";
         public IEnumerable<DataTransferObject> Run(IEnumerable<DataTransferObject> args)
         {
-            logger.Info("Loading employees");
+            var employeesList = args.Cast<EmployeesDTO>().ToList();
 
-            var employeesList = SaveInfoLog(_employees);
+            var list = new EmployeesDTO() { Name = "Rishat" };
 
-            logger.Info($"Loaded {employeesList.Count()} employees");
+            employeesList.Add(list);
+            Create(employeesList);
+
             return employeesList.Cast<DataTransferObject>();
-        }        
-        public string SaveInfoLog(List<EmployeesDTO> log)
-        {
-            return WriteJson(jsonFilePath, log);
         }
-        private string WriteJson(string filePath, List<EmployeesDTO> log)
+
+        private void Create(IEnumerable<DataTransferObject> args)
+        {
+            WriteJson(jsonFilePath, JsonConvert.SerializeObject(args, Formatting.Indented));
+        }
+        private void WriteJson(string filePath, string log)
         {
             string json = JsonConvert.SerializeObject(log);
 
@@ -35,7 +37,6 @@ namespace EmployeesCreatePlugin
             {
                 sw.Write(json);
             }
-            return json;
         }
     }
 }
